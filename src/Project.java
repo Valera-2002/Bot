@@ -4,7 +4,7 @@ public class Project
     {
         Response responser = new Response();
         Data_input reader = new Data_input();
-        responser.sayHello();
+        Response.onDisplay(responser.sayHello());
         while (true)
         {
             String str_input = reader.read();

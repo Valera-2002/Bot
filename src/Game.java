@@ -1,6 +1,5 @@
 public class Game {
   Data_input reader = new Data_input();
-  Response responser = new Response();
   int rightCount = 0;
   int wrongCount = 0;
 
@@ -14,25 +13,24 @@ public class Game {
       String usersAnswer = reader.read();
 
       if (usersAnswer.equals("0")) {
-        statistics();
+        Response.onDisplay(statistics());
         return;
       }
 
       if (usersAnswer.equals(answers_[i] + "")) {
         Response.onDisplay("\u001B[32m" + "Верно" + "\u001B[0m");
-        rightCount +=1;
+        rightCount += 1;
       }
       else {
         Response.onDisplay("\u001B[31m" + "Неверно" + "\u001B[0m");
         wrongCount += 1;
       }
     }
-    statistics();
+    Response.onDisplay(statistics());
   }
 
-  public void statistics() {
-    Response.onDisplay(
-        "\nВерных ответов:" + rightCount +
-            "\nНеверных ответов:" + wrongCount);
+  public String statistics() {
+    return "\nВерных ответов:" + rightCount +
+            "\nНеверных ответов:" + wrongCount;
   }
 }
