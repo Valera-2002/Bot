@@ -1,6 +1,6 @@
 import static org.junit.jupiter.api.Assertions.*;
 
-import bot.Game;
+import main.java.bot.Game;
 
 class GameTest {
 

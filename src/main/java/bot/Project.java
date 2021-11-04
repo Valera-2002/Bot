@@ -1,4 +1,4 @@
-package bot;
+package main.java.bot;
 
 public class Project {
 

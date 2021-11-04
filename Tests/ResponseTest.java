@@ -1,5 +1,5 @@
 import static org.junit.jupiter.api.Assertions.*;
-import bot.Response;
+import main.java.bot.Response;
 import org.junit.jupiter.api.Test;
 
 class ResponseTest {
