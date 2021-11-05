@@ -1,51 +1,56 @@
-package main.java.bot;
+package bot;
+
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 
 public class Game {
-
   Data_input reader = new Data_input();
+  BasedQuestions questions = new BasedQuestions();
+
   public int rightCount = 0;
   public int wrongCount = 0;
-  public String[] questions;
-  public Integer[] answers;
 
 
-  public void fillArrayOfQuestions(){
-    questions = Questions.fillArray();
-    answers = Questions.fillArrayOfInteger();
-  }
+  public void goGame(){
+    try {
+      String query = "select * from questions";
+      Statement statement = questions.getConnection().createStatement();
+      ResultSet resultSet = statement.executeQuery(query);
 
-  public void goGame() {
-    fillArrayOfQuestions();
-    for (int i = 0; i < 3; i++) {
-      Response.onDisplay(questions[i]);
-      String usersAnswer = reader.read();
+      while (resultSet.next()) {
+        Response.onDisplay(resultSet.getString(1));
+        Response.onDisplay(resultSet.getString(2));
+        String usersAnswer = reader.read();
 
-      if (usersAnswer.equals("0")) {
+        if (usersAnswer.equals("0")) {
+          Response.onDisplay(statistics());
+          return;
+        }
+
+        if (isCorrect(resultSet.getString(3), usersAnswer)) {
+          Response.onDisplay("\u001B[32m" + "Верно" + "\u001B[0m");
+        }
+        else {
+          Response.onDisplay("\u001B[31m" + "Неверно" + "\u001B[0m");
+          }
+        }
         Response.onDisplay(statistics());
-        return;
-      }
 
-      if (isCorrect(i, usersAnswer)) {
-        Response.onDisplay("\u001B[32m" + "Верно" + "\u001B[0m");
-      } else {
-        Response.onDisplay("\u001B[31m" + "Неверно" + "\u001B[0m");
-      }
+
+    } catch (SQLException e) {
+      e.printStackTrace();
     }
-    Response.onDisplay(statistics());
   }
 
-  public Boolean isCorrect(Integer numberOfQuestion, String usersAnswer){
-    if (usersAnswer.equals(answers[numberOfQuestion] + "")){
+  public Boolean isCorrect(String answer, String usersAnswer){
+    if (usersAnswer.equals(answer)){
       rightCount += 1;
       return true;
     } else{
       wrongCount += 1;
       return false;
     }
-  }
-
-  public String[] getQuestion(Integer number){
-    return new String[] {questions[number], Integer.toString(answers[number])};
   }
 
   public String statistics() {
