@@ -5,15 +5,20 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 
 public class Response {
 
+  public Boolean onGame = false;
+  public Game myGame;
+
   public String response(Update update) {
     long chat_id = update.getMessage().getChatId();
     String text = update.getMessage().getText();
     if (text.equals("help")) {
       return getHelp();
+    } else if (onGame){
+      return myGame.goGame(text);
     } else if (text.equals("go")) {
-      Game newGame = new Game();
-      newGame.goGame(Update update);
-      return "0";
+      myGame = new Game();
+      onGame = true;
+      return myGame.goGame(text);
     } else {
       return "Некорректный ввод"
           + "\nДля повторного получения справочной информации напиши \"help\" ";
