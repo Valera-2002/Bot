@@ -5,7 +5,7 @@ import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
-import bot.Response;
+
 
 public class Bot extends TelegramLongPollingBot {
 
@@ -31,7 +31,8 @@ public class Bot extends TelegramLongPollingBot {
   public void onUpdateReceived(Update update) {
     if (update.getMessage() != null && update.getMessage().hasText()) {
       long chat_id = update.getMessage().getChatId();
-      String res = responser.response(update);
+      String text = update.getMessage().getText();
+      String res = responser.response(text, chat_id);
       sendMessage(chat_id, res);
     }
   }

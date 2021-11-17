@@ -1,3 +1,5 @@
+package Tests;
+
 import static org.junit.jupiter.api.Assertions.*;
 import bot.Response;
 import org.junit.jupiter.api.Test;
@@ -13,8 +15,7 @@ class ResponseTest {
   void getHelp() {
     assertEquals("""
         Для получения справочной информации напиши\s
-        Для начала игры напиши команду "go"
-        Для завершения работы напиши "stop\"""", resp.getHelp());
+        Для начала игры напиши команду "go\"""", resp.getHelp());
   }
 
   @Test
@@ -25,8 +26,6 @@ class ResponseTest {
         Я могу проводить квиз в одиночном и совместном режиме
         Для начала игры напиши команду "go"
         Ответить на вопрос можно написав номер ответа\s
-        Закончить игру можно написав 0\s
-        Для повторного получения справочной информации напиши "help"\s
-        Для завершения работы напиши "stop\"""", resp.sayHello());
+        Для повторного получения справочной информации напиши "help\"""", resp.sayHello());
   }
 }

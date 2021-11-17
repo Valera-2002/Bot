@@ -1,11 +1,9 @@
 package bot;
 
-import java.net.URL;
 import java.sql.*;
-import java.sql.Driver;
 
 
-public class BasedQuestions {
+public class Сonnection_to_bd {
   public static final String USERNAME = "root";
   public static final String PASSWORD = "root";
   public static final String URL = "jdbc:mysql://localhost:3306/mydb";

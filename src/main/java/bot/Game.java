@@ -1,45 +1,45 @@
 package bot;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-import org.telegram.telegrambots.meta.api.objects.Update;
-
 public class Game {
-  BasedQuestions questions = new BasedQuestions();
+  public String[] questions;
+  public String[] answers;
+
+  public void fillArray() {
+    Based_of_questions based = new Based_of_questions();
+    based.fillArray();
+    questions = based.fillArrayOfQuestions();
+    answers = based.fillArrayOfAnswer();
+   }
+
+  public Integer currentQuestion = 0;
+  public Boolean onGame = false;
 
   public int rightCount = 0;
   public int wrongCount = 0;
 
+
+  public String startGame(){
+    currentQuestion += 1;
+    return questions[0];
+  }
+
   public String goGame(String text){
-    try {
-      String query = "select * from questions";
-      Statement statement = questions.getConnection().createStatement();
-      ResultSet resultSet = statement.executeQuery(query);
-
-      String result = "";
-
-      if (text.equals("go")){
-        return (resultSet.getString(1) + "\n" + resultSet.getString(2));
-      }
-
-      if (isCorrect(resultSet.getString(3), text)) {
-        result += ("\u001B[32m" + "Верно" + "\u001B[0m");
-      }
-      else {
-        result += ("\u001B[31m" + "Неверно" + "\u001B[0m");
-      }
-      if (resultSet.next()) {
-        result += (resultSet.getString(1) + "\n" + resultSet.getString(2));
-      }
-      else {
-        result += statistics();
-      }
-      return result;
-    } catch (SQLException e) {
-      e.printStackTrace();
-      return "0";
+    String result = "";
+    if (isCorrect(answers[currentQuestion-1], text)) {
+      result += "Верно\n";
     }
+    else {
+      result += "Неверно\n";
+    }
+    if (currentQuestion < 6) {
+      result += questions[currentQuestion];
+      currentQuestion+=1;
+    }
+    else {
+      onGame = false;
+      result += "\n" + statistics();
+    }
+    return result;
   }
 
   public Boolean isCorrect(String answer, String usersAnswer){
@@ -54,6 +54,9 @@ public class Game {
 
   public String statistics() {
     return "\nВерных ответов:" + rightCount +
-        "\nНеверных ответов:" + wrongCount;
+            "\nНеверных ответов:" + wrongCount;
   }
+
+
+
 }
