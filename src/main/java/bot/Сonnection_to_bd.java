@@ -1,8 +1,6 @@
 package bot;
 
-import java.net.URL;
 import java.sql.*;
-import java.sql.Driver;
 
 
 public class Сonnection_to_bd {

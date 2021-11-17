@@ -1,11 +1,11 @@
 package bot;
 
+import java.util.HashMap;
 import java.util.Map;
-import org.telegram.telegrambots.meta.api.objects.Update;
 
 public class Response {
 
-  Map<Long, Game> map;
+  Map<Long, Game> map = new HashMap<>();
 
   public String response(String text, long user_id) {
     if (text.equals("/start")){
@@ -15,7 +15,7 @@ public class Response {
       return getHelp();
     } else if (text.equals("go")){
       Game newGame = new Game();
-      //newGame.fillArray();
+      newGame.fillArray();
       newGame.onGame = true;
       map.put(user_id, newGame);
       return newGame.startGame();

@@ -1,13 +1,16 @@
 package bot;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-import org.telegram.telegrambots.meta.api.objects.Update;
-
 public class Game {
   public String[] questions;
   public String[] answers;
+
+  public void fillArray() {
+    Based_of_questions based = new Based_of_questions();
+    based.fillArray();
+    questions = based.fillArrayOfQuestions();
+    answers = based.fillArrayOfAnswer();
+   }
+
   public Integer currentQuestion = 0;
   public Boolean onGame = false;
 
@@ -22,14 +25,15 @@ public class Game {
 
   public String goGame(String text){
     String result = "";
-    if (isCorrect(answers[currentQuestion], text)) {
+    if (isCorrect(answers[currentQuestion-1], text)) {
       result += "Верно\n";
     }
     else {
       result += "Неверно\n";
     }
-    if (currentQuestion < 3) {
+    if (currentQuestion < 6) {
       result += questions[currentQuestion];
+      currentQuestion+=1;
     }
     else {
       onGame = false;
@@ -52,4 +56,7 @@ public class Game {
     return "\nВерных ответов:" + rightCount +
             "\nНеверных ответов:" + wrongCount;
   }
+
+
+
 }

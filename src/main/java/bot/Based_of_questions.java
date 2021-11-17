@@ -10,6 +10,13 @@ public class Based_of_questions {
     public String[] questions;
     public String[] answers;
 
+    public String[] fillArrayOfQuestions(){
+        return questions;
+    }
+    public String[] fillArrayOfAnswer(){
+        return answers;
+    }
+
     public void fillArray() {
         Сonnection_to_bd based = new Сonnection_to_bd();
         try {
@@ -17,8 +24,8 @@ public class Based_of_questions {
             Statement statement = based.getConnection().createStatement();
             ResultSet resultSet = statement.executeQuery(query);
 
-            questions = new String[3];
-            answers = new String[3];
+            questions = new String[6];
+            answers = new String[6];
             int i = 0;
             while (resultSet.next()) {
                 questions[i] = resultSet.getString(1) + "\n" + resultSet.getString(2);
