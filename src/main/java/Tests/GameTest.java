@@ -14,7 +14,6 @@ class GameTest {
             "4. 53",newGame.startGame());
   }
 
-
   @org.junit.jupiter.api.Test
   void isCorrect() {
     Game newGame = new Game();

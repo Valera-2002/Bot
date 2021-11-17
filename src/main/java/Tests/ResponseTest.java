@@ -1,6 +1,8 @@
 package Tests;
 
 import static org.junit.jupiter.api.Assertions.*;
+
+import bot.Game;
 import bot.Response;
 import org.junit.jupiter.api.Test;
 
@@ -9,6 +11,12 @@ class ResponseTest {
 
   @Test
   void response() {
+    long id = 123;
+    resp.response("go",id);
+    resp.response("2",id);
+    resp.response("2",id);
+    assertEquals("\nВерных ответов:" + "2" +
+            "\nНеверных ответов:" + "0", resp.map.get(id).statistics());
   }
 
   @Test

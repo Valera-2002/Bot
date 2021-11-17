@@ -5,7 +5,7 @@ import java.util.Map;
 
 public class Response {
 
-  Map<Long, Game> map = new HashMap<>();
+  public Map<Long, Game> map = new HashMap<>();
 
   public String response(String text, long user_id) {
     if (text.equals("/start")){
@@ -14,11 +14,18 @@ public class Response {
     if (text.equals("help")) {
       return getHelp();
     } else if (text.equals("go")){
+      String result = "";
+      if (map.containsKey(user_id)){
+        result+="Статистика предыдущей игры:\n"+map.get(user_id).statistics();
+        map.get(user_id).onGame = false;
+
+      }
+
       Game newGame = new Game();
       newGame.fillArray();
       newGame.onGame = true;
       map.put(user_id, newGame);
-      return newGame.startGame();
+      return result +"\n"+ newGame.startGame();
     } else if (map.get(user_id).onGame){
       return map.get(user_id).goGame(text);
     } else {

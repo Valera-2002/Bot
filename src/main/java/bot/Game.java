@@ -39,6 +39,7 @@ public class Game {
       onGame = false;
       result += "\n" + statistics();
     }
+
     return result;
   }
 
