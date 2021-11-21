@@ -1,11 +1,17 @@
 package bot;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import org.telegram.telegrambots.bots.DefaultBotOptions;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.objects.Update;
+import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
+import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboard;
+import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
-
+import bot.Response;
 
 public class Bot extends TelegramLongPollingBot {
 
@@ -39,7 +45,26 @@ public class Bot extends TelegramLongPollingBot {
 
   public void sendMessage(Long chat_id, String message){
     try {
-      execute(new SendMessage(Long.toString(chat_id), message));
+      if (message.contains("?")){
+        List<List<InlineKeyboardButton>> buttons = new ArrayList<>();
+        int i = 1;
+        String[] options = message.split("\\n");
+        while (i < 5){
+          buttons.add(Arrays.asList(InlineKeyboardButton.builder().text(options[i]).callbackData(
+                  Integer.toString(i)).build()));
+          i++;
+        }
+        System.out.println(1234);
+        execute(
+                SendMessage.builder()
+                        .text(message)
+                        .chatId(chat_id.toString())
+                        .replyMarkup(InlineKeyboardMarkup.builder().keyboard(buttons).build())
+                        .build());
+      }
+      else {
+        execute(new SendMessage(Long.toString(chat_id), message));
+      }
     } catch (TelegramApiException e) {
       e.printStackTrace();
     }
