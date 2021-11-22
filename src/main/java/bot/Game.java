@@ -8,8 +8,8 @@ public class Game {
   public void fillArray() {
     Based_of_questions based = new Based_of_questions();
     based.fillArray();
-    questions = based.fillArrayOfQuestions();
-    answers = based.fillArrayOfAnswer();
+    questions = based.getArrayOfQuestions();
+    answers = based.getArrayOfAnswer();
     countOfQuestions = based.countOfQuestions;
    }
 
@@ -21,8 +21,9 @@ public class Game {
 
 
   public String startGame(){
+    onGame = true;
     currentQuestion += 1;
-    return questions[0];
+    return "Игра началась!\n" + questions[0];
   }
 
   public String goGame(String text){

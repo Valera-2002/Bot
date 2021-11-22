@@ -1,10 +1,7 @@
 package bot;
-
-
 import java.sql.*;
 
 public class AddQuestions {
-
     public Boolean append = false;
     public String question = "";
     public String variantQuestions = "";
@@ -16,21 +13,24 @@ public class AddQuestions {
                 "\n1.Сам вопрос" +
                 "\n2.Пронумерованные варианты ответа(их 4)" +
                 "\n3.Номер правильного ответа";
-
     }
+
     public String inputQuestion(String text) {
         question = text;
         return "Вопрос:" + question;
     }
+
     public String inputVariantQuestions(String text) {
         variantQuestions = text;
         return "Варианты:" + variantQuestions;
     }
+
     public String inputAnswerQuestions(String text) {
         answerQuestions = text;
         append = false;
         return AddQuestions();
     }
+
     public String AddQuestions(){
         Сonnection_to_bd based = new Сonnection_to_bd();
         String insert = "INSERT INTO questions (question, variant, answer) Values(\""+question+"\" , \""+variantQuestions+"\", "+answerQuestions+")";
