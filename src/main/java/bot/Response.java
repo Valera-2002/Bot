@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Response {
-  Map<Long, Game> map = new HashMap<>();
+  public Map<Long, Game> map = new HashMap<>();
   Map<Long, AddQuestions> add = new HashMap<>();
 
   public String response(String text, long user_id) {
