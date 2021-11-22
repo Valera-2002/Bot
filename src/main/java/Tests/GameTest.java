@@ -8,7 +8,7 @@ class GameTest {
   void startGame(){
     Game newGame = new Game();
     newGame.fillArray();
-    assertEquals("Сколько лет прожил Жак Фреско?"+"\n"+"1. 1\n" +
+    assertEquals("Игра началась!\n" + "Сколько лет прожил Жак Фреско?"+"\n"+"1. 1\n" +
             "2. 101\n" +
             "3. 78\n" +
             "4. 53",newGame.startGame());

@@ -3,12 +3,14 @@ package bot;
 public class Game {
   public String[] questions;
   public String[] answers;
+  public int countOfQuestions;
 
   public void fillArray() {
     Based_of_questions based = new Based_of_questions();
     based.fillArray();
-    questions = based.fillArrayOfQuestions();
-    answers = based.fillArrayOfAnswer();
+    questions = based.getArrayOfQuestions();
+    answers = based.getArrayOfAnswer();
+    countOfQuestions = based.countOfQuestions;
    }
 
   public Integer currentQuestion = 0;
@@ -19,8 +21,9 @@ public class Game {
 
 
   public String startGame(){
+    onGame = true;
     currentQuestion += 1;
-    return questions[0];
+    return "Игра началась!\n" + questions[0];
   }
 
   public String goGame(String text){
@@ -31,7 +34,7 @@ public class Game {
     else {
       result += "Неверно\n";
     }
-    if (currentQuestion < 6) {
+    if (currentQuestion < countOfQuestions) {
       result += questions[currentQuestion];
       currentQuestion+=1;
     }
