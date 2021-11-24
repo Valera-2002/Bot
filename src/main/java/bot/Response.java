@@ -1,11 +1,11 @@
 package bot;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 public class Response {
   public Map<Long, Game> map = new HashMap<>();
-  Map<Long, AddQuestions> add = new HashMap<>();
+  public Map<Long, AddQuestions> add = new HashMap<>();
+  List admin_id = new ArrayList(Arrays.asList(new String[]{"721126016", "1224972468"}));
 
   public String response(String text, long user_id) {
     if (text.equals("/start")){
@@ -15,7 +15,7 @@ public class Response {
       return getHelp();
     }
 
-    if ((Long.toString(user_id).equals("721126016") | (Long.toString(user_id).equals("1224972468"))) && (text.equals("add"))){
+    if (admin_id.contains(Long.toString(user_id)) && text.equals("add")){
       AddQuestions questions = new AddQuestions();
       questions.append = true;
       add.put(user_id, questions);

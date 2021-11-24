@@ -17,8 +17,8 @@ import bot.Response;
 
 public class Bot extends TelegramLongPollingBot {
 
-  private static final String TOKEN = "2039749405:AAFzZYZI6SRDWit-6m8rfD5SlG4mKFhP9ug";
-  private static final String BOTNAME = "dasQuizBot";
+  private static final String TOKEN = "2135433200:AAH3rSTa68Bv0ZlsZnFEoIgz09QFtavwmfo";
+  private static final String BOTNAME = "das_quiz_bot";
   Response responser = new Response();
 
   public Bot(DefaultBotOptions options) {

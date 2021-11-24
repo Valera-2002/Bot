@@ -1,7 +1,9 @@
 package Tests;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import bot.AddQuestions;
 import bot.Game;
 import bot.Response;
 import org.junit.jupiter.api.Test;
@@ -11,7 +13,7 @@ class ResponseTest {
 
  @Test
   void responseAddQuestions() {
-    assertEquals("Некорректный ввод"
+     assertEquals("Некорректный ввод"
             + "\nДля повторного получения справочной информации напиши \"help\" ", resp.response("add", 12312));
   }
   @Test
@@ -22,7 +24,6 @@ class ResponseTest {
     resp.response("2",id);
     assertEquals("\nВерных ответов:" + "2" +
             "\nНеверных ответов:" + "0", resp.map.get(id).statistics());}
-  }
 
   @Test
   void getHelp() {

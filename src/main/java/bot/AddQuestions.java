@@ -6,6 +6,7 @@ public class AddQuestions {
     public String question = "";
     public String variantQuestions = "";
     public String answerQuestions = "";
+    public String nameTable = "";
 
     public String instruction(){
         return "В следующих 3 сообщениях(в каждом по отдельности) " +
@@ -37,18 +38,27 @@ public class AddQuestions {
         try {
             PreparedStatement statement = based.getConnection().prepareStatement(insert);
             statement.executeUpdate(insert);
-            return "Добавлен вопрос:"+
-                    "\n"+ question +
-                    "\n"+ variantQuestions +
-                    "\nНомер правильного ответ:"+ answerQuestions;
+            return "Добавлен вопрос";
             }
         catch (SQLException e) {
              e.printStackTrace();
-            return "Нет соеденения с базой";
+            return "Не получилось добавить вопрос: либо такой вопрос уже есть, либо вопрос введен некорректно"; }
 
         }
+    public String DeleteQuestions(){
+        Сonnection_to_bd based = new Сonnection_to_bd();
+        String insert = "DELETE FROM questions WHERE question=\""+question+"\"";
+        try {
+            PreparedStatement statement = based.getConnection().prepareStatement(insert);
+            statement.executeUpdate(insert);
+            return "Вопрос удален";
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
+            return "Не получилось удалить вопрос"; }
+
     }
-
-
 }
+
+
 
