@@ -3,7 +3,7 @@ package bot;
 import java.sql.*;
 
 
-public class Сonnection_to_bd {
+public class ConnectionToBd {
   public static final String USERNAME = "root";
   public static final String PASSWORD = "root";
   public static final String URL = "jdbc:mysql://localhost:3306/mydb";
@@ -14,8 +14,8 @@ public class Сonnection_to_bd {
     try {
       connection = DriverManager.getConnection(URL,USERNAME,PASSWORD);
     }
-    catch (SQLException throwables) {
-      throwables.printStackTrace();
+    catch (SQLException throwable) {
+      throwable.printStackTrace();
       throw new RuntimeException();
     }
   }
@@ -23,13 +23,13 @@ public class Сonnection_to_bd {
     try {
       statement = connection.createStatement();
     }
-    catch (SQLException throwables) {
-      throwables.printStackTrace();
+    catch (SQLException throwable) {
+      throwable.printStackTrace();
       throw new RuntimeException();
     }
   }
 
-  public static Connection getConnection() {
+  public Connection getConnection() {
     return connection;
   }
 }

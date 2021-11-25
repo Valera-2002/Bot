@@ -6,22 +6,24 @@ public class Game {
   public int countOfQuestions;
 
   public void fillArray() {
-    Based_of_questions based = new Based_of_questions();
+    BasedOfQuestions based = new BasedOfQuestions();
     based.fillArray();
     questions = based.getArrayOfQuestions();
     answers = based.getArrayOfAnswer();
-    countOfQuestions = based.countOfQuestions;
+    countOfQuestions = based.getCountOfQuestions();
    }
 
-  public Integer currentQuestion = 0;
-  public Boolean onGame = false;
+  public Boolean onGame;
+  public Boolean getOnGame(){return onGame;}
 
+  public int currentQuestion = 0;
   public int rightCount = 0;
   public int wrongCount = 0;
 
 
   public String startGame(){
     onGame = true;
+    fillArray();
     currentQuestion += 1;
     return "Игра началась!\n" + questions[0];
   }

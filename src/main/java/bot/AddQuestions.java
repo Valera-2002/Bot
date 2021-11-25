@@ -2,18 +2,26 @@ package bot;
 import java.sql.*;
 
 public class AddQuestions {
-    public Boolean append = false;
-    public String question = "";
-    public String variantQuestions = "";
-    public String answerQuestions = "";
-    public String nameTable = "";
+    public Boolean append;
+    public String question;
+    public String variantQuestions;
+    public String answerQuestions;
+
+    public String getQuestion(){return question;}
+    public String getVariantQuestions(){return variantQuestions;}
+    public String getAnswerQuestions(){return answerQuestions;}
+    public Boolean getAppend(){return append;}
 
     public String instruction(){
-        return "В следующих 3 сообщениях(в каждом по отдельности) " +
-                "Введите:" +
-                "\n1.Сам вопрос" +
-                "\n2.Пронумерованные варианты ответа(их 4)" +
-                "\n3.Номер правильного ответа";
+        append = true;
+        question = "";
+        variantQuestions = "";
+        answerQuestions = "";
+        return """
+                В следующих 3 сообщениях(в каждом по отдельности) Введите:
+                1.Сам вопрос
+                2.Пронумерованные варианты ответа(их 4)
+                3.Номер правильного ответа""";
     }
 
     public String inputQuestion(String text) {
@@ -21,22 +29,22 @@ public class AddQuestions {
         return "Вопрос:" + question;
     }
 
-    public String inputVariantQuestions(String text) {
+    public String inputVariantQuestion(String text) {
         variantQuestions = text;
         return "Варианты:" + variantQuestions;
     }
 
-    public String inputAnswerQuestions(String text) {
+    public String inputAnswerQuestion(String text) {
         answerQuestions = text;
         append = false;
-        return AddQuestions();
+        return addQuestion();
     }
 
-    public String AddQuestions(){
-        Сonnection_to_bd based = new Сonnection_to_bd();
+    public String addQuestion(){
+        ConnectionToBd connection = new ConnectionToBd();
         String insert = "INSERT INTO questions (question, variant, answer) Values(\""+question+"\" , \""+variantQuestions+"\", "+answerQuestions+")";
         try {
-            PreparedStatement statement = based.getConnection().prepareStatement(insert);
+            PreparedStatement statement = connection.getConnection().prepareStatement(insert);
             statement.executeUpdate(insert);
             return "Добавлен вопрос";
             }
@@ -45,11 +53,11 @@ public class AddQuestions {
             return "Не получилось добавить вопрос: либо такой вопрос уже есть, либо вопрос введен некорректно"; }
 
         }
-    public String DeleteQuestions(){
-        Сonnection_to_bd based = new Сonnection_to_bd();
+    public String deleteQuestions(){
+        ConnectionToBd connection = new ConnectionToBd();
         String insert = "DELETE FROM questions WHERE question=\""+question+"\"";
         try {
-            PreparedStatement statement = based.getConnection().prepareStatement(insert);
+            PreparedStatement statement = connection.getConnection().prepareStatement(insert);
             statement.executeUpdate(insert);
             return "Вопрос удален";
         }

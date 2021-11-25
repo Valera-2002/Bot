@@ -2,25 +2,34 @@ package Tests;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import bot.AddQuestions;
+import bot.BasedOfQuestions;
 import org.junit.jupiter.api.Test;
 
 public class AddQuestionsTest {
     @Test
-    void AddQuestions() {
+    void addQuestions() {
         AddQuestions questions = new AddQuestions();
         questions.inputQuestion("?");
-        questions.inputVariantQuestions("?");
-        assertEquals("Не получилось добавить вопрос: либо такой вопрос уже есть, либо вопрос введен некорректно", questions.inputAnswerQuestions("?"));
-        assertEquals("Не получилось добавить вопрос: либо такой вопрос уже есть, либо вопрос введен некорректно", questions.AddQuestions());
+        questions.inputVariantQuestion("?");
+        assertEquals("Не получилось добавить вопрос: либо такой вопрос уже есть, либо вопрос введен некорректно", questions.inputAnswerQuestion("?"));
+        assertEquals("Не получилось добавить вопрос: либо такой вопрос уже есть, либо вопрос введен некорректно", questions.addQuestion());
     }
     @Test
-    void DeleteQuestions() {
-        AddQuestions questions1 = new AddQuestions();
-        questions1.question ="example?";
-        questions1.variantQuestions ="1.1";
-        questions1.answerQuestions ="3";
-        assertEquals(questions1.AddQuestions(), "Добавлен вопрос");
-        assertEquals(questions1.DeleteQuestions(),"Вопрос удален");
+    void deleteQuestions() {
+        AddQuestions questions = new AddQuestions();
+        BasedOfQuestions based = new BasedOfQuestions();
+        based.fillArray();
+        int countBefore = based.getCountOfQuestions();
+
+        questions.inputQuestion("example?");
+        questions.inputVariantQuestion("1.1");
+        assertEquals(questions.inputAnswerQuestion("3"), "Добавлен вопрос");
+        based.fillArray();
+        assertEquals(countBefore+1,based.getCountOfQuestions());
+
+        assertEquals(questions.deleteQuestions(),"Вопрос удален");
+        based.fillArray();
+        assertEquals(countBefore,based.getCountOfQuestions());
         }
 
     }

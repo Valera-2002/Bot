@@ -4,7 +4,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 
-public class Based_of_questions {
+public class BasedOfQuestions {
 
     public String[] questions;
     public String[] answers;
@@ -12,16 +12,17 @@ public class Based_of_questions {
 
     public String[] getArrayOfQuestions(){return questions;}
     public String[] getArrayOfAnswer(){return answers;}
+    public Integer getCountOfQuestions(){return countOfQuestions;}
 
     public void fillArray() {
-        Сonnection_to_bd based = new Сonnection_to_bd();
+        ConnectionToBd based = new ConnectionToBd();
         try {
             Statement statement = based.getConnection().createStatement();
 
             String count = "SELECT COUNT(*) FROM questions";
-            ResultSet сounter = statement.executeQuery(count);
-            сounter.next();
-            countOfQuestions = сounter.getInt(1);
+            ResultSet counter = statement.executeQuery(count);
+            counter.next();
+            countOfQuestions = counter.getInt(1);
 
             String query = "select * from questions";
             ResultSet resultSet = statement.executeQuery(query);

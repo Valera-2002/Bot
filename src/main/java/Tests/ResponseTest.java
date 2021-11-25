@@ -1,10 +1,6 @@
 package Tests;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-
-import bot.AddQuestions;
-import bot.Game;
 import bot.Response;
 import org.junit.jupiter.api.Test;
 
@@ -22,15 +18,17 @@ class ResponseTest {
     resp.response("go",id);
     resp.response("2",id);
     resp.response("2",id);
-    assertEquals("\nВерных ответов:" + "2" +
-            "\nНеверных ответов:" + "0", resp.map.get(id).statistics());}
+    assertEquals("""
+
+            Верных ответов:2
+            Неверных ответов:0""", resp.map.get(id).statistics());}
 
   @Test
   void getHelp() {
     assertEquals("""
-Справочная информация:\s
-Для начала игры напиши команду "go\"\s
-Для добавления вопроса напиши \"add\"""", resp.getHelp());
+            Справочная информация:\s
+            Для начала игры напиши команду "go"\s
+            Для добавления вопроса напиши "add\"""", resp.getHelp());
   }
 
   @Test
