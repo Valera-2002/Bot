@@ -4,6 +4,16 @@ public class Game {
   public String[] questions;
   public String[] answers;
   public int countOfQuestions;
+  public Boolean onGame;
+  public Long userId;
+
+  public int currentQuestion = 0;
+  public int rightCount = 0;
+  public int wrongCount = 0;
+
+  public MultiusersGame multiusersGame;
+
+  public Boolean getOnGame(){return onGame;}
 
   public void fillArray() {
     BasedOfQuestions based = new BasedOfQuestions();
@@ -12,14 +22,6 @@ public class Game {
     answers = based.getArrayOfAnswer();
     countOfQuestions = based.getCountOfQuestions();
    }
-
-  public Boolean onGame;
-  public Boolean getOnGame(){return onGame;}
-
-  public int currentQuestion = 0;
-  public int rightCount = 0;
-  public int wrongCount = 0;
-
 
   public String startGame(){
     onGame = true;
@@ -42,6 +44,9 @@ public class Game {
     }
     else {
       onGame = false;
+      if (multiusersGame != null){
+        multiusersGame.status.put(userId, false);
+      }
       result += "\n" + statistics();
     }
 
@@ -51,6 +56,9 @@ public class Game {
   public Boolean isCorrect(String answer, String usersAnswer){
     if (usersAnswer.equals(answer)){
       rightCount += 1;
+      if (multiusersGame != null) {
+        multiusersGame.scores.put(userId, rightCount);
+      }
       return true;
     } else{
       wrongCount += 1;

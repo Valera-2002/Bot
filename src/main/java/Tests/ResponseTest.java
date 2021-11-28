@@ -21,7 +21,7 @@ class ResponseTest {
     assertEquals("""
 
             Верных ответов:2
-            Неверных ответов:0""", resp.map.get(id).statistics());}
+            Неверных ответов:0""", resp.gameMap.get(id).statistics());}
 
   @Test
   void getHelp() {

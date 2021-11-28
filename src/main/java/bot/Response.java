@@ -3,9 +3,10 @@ package bot;
 import java.util.*;
 
 public class Response {
-  public Map<Long, Game> map = new HashMap<>();
+  public Map<Long, Game> gameMap = new HashMap<>();
   public Map<Long, AddQuestions> add = new HashMap<>();
-  List<String> admin_id = new ArrayList<>(Arrays.asList("721126016", "1224972468"));
+  public List<MultiusersGame> multiusersGames = new ArrayList<>();
+  private List<String> admin_id = new ArrayList<>(Arrays.asList("721126016", "1224972468"));
 
   public String response(String text, long user_id) {
     if (text.equals("/start")){
@@ -35,11 +36,22 @@ public class Response {
 
     if (text.equals("go")){
       Game newGame = new Game();
-      map.put(user_id, newGame);
+      gameMap.put(user_id, newGame);
       return newGame.startGame();
     }
 
-    if (map.containsKey(user_id) && map.get(user_id).getOnGame()){return map.get(user_id).goGame(text);}
+    if (text.equals("multi game")){
+      if (multiusersGames.isEmpty()){
+        MultiusersGame newMultiusersGame = new MultiusersGame(user_id);
+        multiusersGames.add(newMultiusersGame);
+        Game newGame = new Game();
+        newGame.multiusersGame = newMultiusersGame;
+        gameMap.put(user_id, newGame);
+        return newGame.startGame();
+      }
+    }
+
+    if (gameMap.containsKey(user_id) && gameMap.get(user_id).getOnGame()){return gameMap.get(user_id).goGame(text);}
     else {
       return """
               Некорректный ввод

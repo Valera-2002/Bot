@@ -36,6 +36,9 @@ public class Bot extends TelegramLongPollingBot {
       String data = update.getCallbackQuery().getData();
       String res = responder.response(data, chat_id);
       sendMessage(chat_id, res);
+      if (!responder.multiusersGames.isEmpty()) {
+        printResultOfBattle(chat_id);
+      }
     } else if (update.hasMessage()) {
       long chat_id = update.getMessage().getChatId();
       String text = update.getMessage().getText();
@@ -44,11 +47,33 @@ public class Bot extends TelegramLongPollingBot {
     }
   }
 
+  public void printResultOfBattle(Long chat_id) {
+    for (MultiusersGame game : responder.multiusersGames) {
+      if (game.firstId == chat_id | game.secondId == chat_id) {
+        if (!responder.gameMap.get(game.firstId).onGame &
+            !responder.gameMap.get(game.secondId).onGame) {
+          game.setWinnerId();
+          if (game.winnerId == 0L){
+            sendMessage(game.firstId, "Ничья!");
+            sendMessage(game.secondId, "Ничья!");
+          }
+          if (game.firstId == game.winnerId){
+            sendMessage(game.firstId, "Вы победили!");
+            sendMessage(game.secondId, "Вы проиграли!");
+          } else {
+            sendMessage(game.firstId, "Вы проиграли!");
+            sendMessage(game.secondId, "Вы победили!");
+          }
+        }
+        break;
+      }
+    }
+  }
 
   public void sendMessage(Long chat_id, String message){
     try {
-      if (responder.map.get(chat_id) != null){
-        if (responder.map.get(chat_id).onGame) {
+      if (responder.gameMap.get(chat_id) != null){
+        if (responder.gameMap.get(chat_id).onGame) {
           List<List<InlineKeyboardButton>> buttons = new ArrayList<>();
           String[] options = message.split("\\n");
           int i = 2;
