@@ -10,8 +10,7 @@ public class MultiusersGame {
     public Map<Long, Integer> scores;
     public Map<Long, Boolean> status;
 
-    public MultiusersGame(Long id){
-      firstId = id;
+    public MultiusersGame(){
       scores.put(firstId, 0);
       scores.put(secondId, 0);
       status.put(firstId, false);

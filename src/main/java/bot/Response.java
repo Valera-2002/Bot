@@ -5,8 +5,10 @@ import java.util.*;
 public class Response {
   public Map<Long, Game> gameMap = new HashMap<>();
   public Map<Long, AddQuestions> add = new HashMap<>();
-  public List<MultiusersGame> multiusersGames = new ArrayList<>();
+  //public List<MultiusersGame> multiusersGames = new ArrayList<>();
   private List<String> admin_id = new ArrayList<>(Arrays.asList("721126016", "1224972468"));
+  public List<Long> queue = new ArrayList<>();
+  public Map<Long, Long> multigames = new HashMap<>();
 
   public String response(String text, long user_id) {
     if (text.equals("/start")){
@@ -40,14 +42,16 @@ public class Response {
       return newGame.startGame();
     }
 
-    if (text.equals("multi game")){
-      if (multiusersGames.isEmpty()){
-        MultiusersGame newMultiusersGame = new MultiusersGame(user_id);
-        multiusersGames.add(newMultiusersGame);
-        Game newGame = new Game();
-        newGame.multiusersGame = newMultiusersGame;
-        gameMap.put(user_id, newGame);
-        return newGame.startGame();
+    if (text.equals("search")){
+      queue.add(user_id);
+      if (queue.size() < 2){
+        return "Ожидайте других игроков";
+      }
+      else{
+        multigames.put(user_id, queue.get(0));
+        //multigames.put(queue.get(0), user_id);
+        queue.clear();
+        return "STARTGAMECODE";
       }
     }
 
