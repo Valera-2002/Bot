@@ -1,5 +1,7 @@
 package bot;
 
+import org.apache.commons.lang.time.StopWatch;
+
 public class Game {
   public String[] questions;
   public String[] answers;
@@ -18,10 +20,18 @@ public class Game {
 
   public int currentQuestion = 0;
   public int rightCount = 0;
+  public int getRightCount() {return rightCount;}
   public int wrongCount = 0;
+  public long time = 0;
+  public long getTime() {return time;}
+  StopWatch timer = new StopWatch();
 
+  public String resultOfBattle;
+  public String getResultOfBattle() {return resultOfBattle;}
+  public void setResultOfBattle(String resultOfBattle) {this.resultOfBattle = resultOfBattle;}
 
   public String startGame(){
+    timer.start();
     onGame = true;
     fillArray();
     currentQuestion += 1;
@@ -42,6 +52,7 @@ public class Game {
     }
     else {
       onGame = false;
+      time =  timer.getTime();
       result += "\n" + statistics();
     }
 
@@ -60,6 +71,7 @@ public class Game {
 
   public String statistics() {
     return "\nВерных ответов:" + rightCount +
-        "\nНеверных ответов:" + wrongCount;
+        "\nНеверных ответов:" + wrongCount+
+            "\nОбщее время: " + time / 1000 + " c";
   }
 }

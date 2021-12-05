@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import bot.Game;
 
 class GameTest {
+
   @org.junit.jupiter.api.Test
   void startGame(){
     Game newGame = new Game();
@@ -32,21 +33,25 @@ class GameTest {
   void statistics() {
     Game newGame = new Game();
     assertEquals("\nВерных ответов:" + newGame.rightCount +
-        "\nНеверных ответов:" + newGame.wrongCount, newGame.statistics());
+        "\nНеверных ответов:" + newGame.wrongCount +
+                    "\nОбщее время: "+(newGame.time/1000)+ " c", newGame.statistics());
     newGame.isCorrect("2", "2");
     assertEquals("""
 
             Верных ответов:1
-            Неверных ответов:0""", newGame.statistics());
+            Неверных ответов:0"""+
+            "\nОбщее время: "+(newGame.time/1000)+ " c", newGame.statistics());
     newGame.isCorrect("3", "3");
     assertEquals("""
 
             Верных ответов:2
-            Неверных ответов:0""", newGame.statistics());
+            Неверных ответов:0"""+
+            "\nОбщее время: "+(newGame.time/1000)+ " c", newGame.statistics());
     newGame.isCorrect("2", "123");
     assertEquals("""
 
             Верных ответов:2
-            Неверных ответов:1""", newGame.statistics());
+            Неверных ответов:1"""+
+            "\nОбщее время: "+(newGame.time/1000)+ " c", newGame.statistics());
   }
 }

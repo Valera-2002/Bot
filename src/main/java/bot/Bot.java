@@ -2,6 +2,7 @@ package bot;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import org.telegram.telegrambots.bots.DefaultBotOptions;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.objects.Update;
@@ -9,12 +10,15 @@ import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMa
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
+import org.apache.commons.lang.time. StopWatch;
 
 public class Bot extends TelegramLongPollingBot {
 
   private static final String TOKEN = "2135433200:AAH3rSTa68Bv0ZlsZnFEoIgz09QFtavwmfo";
   private static final String BOTNAME = "das_quiz_bot";
   Response responder = new Response();
+  StopWatch timer = new StopWatch();
+  private static final int limit = 2;
 
   public Bot(DefaultBotOptions options) {
     super(options);
@@ -36,17 +40,19 @@ public class Bot extends TelegramLongPollingBot {
       String data = update.getCallbackQuery().getData();
       String res = responder.response(data, chat_id);
       sendMessage(chat_id, res);
-    } else if (update.hasMessage()) {
+      timer(limit,chat_id);
+    }
+    else if (update.hasMessage()) {
       long chat_id = update.getMessage().getChatId();
       String text = update.getMessage().getText();
       String res = responder.response(text, chat_id);
       if (res.equals("STARTGAMECODE")){
-        Long firstGamer = responder.multigames.get(chat_id);
-        responder.response("go", firstGamer);
-        responder.response("go", chat_id);
-        return;
+        //Long firstGamer = responder.multigames.get(chat_id);
+        sendMessage(chat_id, responder.response("go",responder.queue.get(0)));
+        //responder.response("go", responder.queue.get(1));
       }
       sendMessage(chat_id, res);
+      timer(limit,chat_id);
     }
   }
 
@@ -77,5 +83,28 @@ public class Bot extends TelegramLongPollingBot {
     } catch (TelegramApiException e) {
       e.printStackTrace();
     }
+  }
+  public void timer(int limit, long chat_id) {
+    if (responder.gameMap.get(chat_id) != null){
+      if (responder.gameMap.get(chat_id).onGame) {
+    long i = 0;
+    timer.reset();
+    timer.start();
+    while (i < limit * 1000L) {
+      i = timer.getTime();
+    }
+    timer.stop();
+    sendMessage(chat_id,responder.response("0", chat_id));
+    //timer(limit,chat_id);
+  }}}
+  public void resultOfBattle(){
+    MultiuserGame multiuserGame = new MultiuserGame();
+    multiuserGame.gameStat
+            (responder.gameMap.get(responder.multigames.get(0)),
+                    responder.gameMap.get(responder.multigames.get(1)));
+    sendMessage(responder.multigames.get(0),"result");
+    sendMessage(responder.multigames.get(1),"result");
+
+
   }
 }
