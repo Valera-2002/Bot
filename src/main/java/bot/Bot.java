@@ -3,6 +3,7 @@ package bot;
 import java.util.ArrayList;
 import java.util.List;
 
+import java.util.Timer;
 import org.telegram.telegrambots.bots.DefaultBotOptions;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.objects.Update;
@@ -47,9 +48,15 @@ public class Bot extends TelegramLongPollingBot {
       String text = update.getMessage().getText();
       String res = responder.response(text, chat_id);
       if (res.equals("STARTGAMECODE")){
-        //Long firstGamer = responder.multigames.get(chat_id);
-        sendMessage(chat_id, responder.response("go",responder.queue.get(0)));
-        //responder.response("go", responder.queue.get(1));
+        Long firstGamer = responder.multigames.get(chat_id);
+        sendMessage(firstGamer, responder.response("go", firstGamer));
+        sendMessage(chat_id, responder.response("go", chat_id));
+        responder.gameMap.get(firstGamer).opponentsId = chat_id;
+        responder.gameMap.get(chat_id).opponentsId = firstGamer;
+        Timer myTimer = new Timer();
+        MyTimerTask myTimerTask = new MyTimerTask(this, responder.gameMap, chat_id);
+        myTimer.schedule(myTimerTask, 90000);
+        return;
       }
       sendMessage(chat_id, res);
       timer(limit,chat_id);
@@ -87,24 +94,21 @@ public class Bot extends TelegramLongPollingBot {
   public void timer(int limit, long chat_id) {
     if (responder.gameMap.get(chat_id) != null){
       if (responder.gameMap.get(chat_id).onGame) {
-    long i = 0;
-    timer.reset();
-    timer.start();
-    while (i < limit * 1000L) {
-      i = timer.getTime();
-    }
+        long i = 0;
+        timer.reset();
+        timer.start();
+        while (i < limit * 1000L) {
+          i = timer.getTime();
+        }
     timer.stop();
     sendMessage(chat_id,responder.response("0", chat_id));
-    //timer(limit,chat_id);
   }}}
-  public void resultOfBattle(){
+  public void resultOfBattle(Long userId){
     MultiuserGame multiuserGame = new MultiuserGame();
+    Long opponentId = responder.gameMap.get(userId).opponentsId;
     multiuserGame.gameStat
-            (responder.gameMap.get(responder.multigames.get(0)),
-                    responder.gameMap.get(responder.multigames.get(1)));
-    sendMessage(responder.multigames.get(0),"result");
-    sendMessage(responder.multigames.get(1),"result");
-
-
+            (responder.gameMap.get(userId), responder.gameMap.get(opponentId));
+    sendMessage(userId, responder.response("result", userId));
+    sendMessage(opponentId, responder.response("result", opponentId));
   }
 }

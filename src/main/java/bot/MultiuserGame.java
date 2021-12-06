@@ -2,8 +2,8 @@ package bot;
 
 public class MultiuserGame {
     public void gameStat(Game userFirst, Game userSecond) {
-        String winnerSpeech = "Вы победили!";
-        String loserSpeech = "Вы проиграли!";
+        String winnerSpeech = "Вы победили! Счёт: ";
+        String loserSpeech = "Вы проиграли! Счёт: ";
         String resultByTime = " По времени, при равном счете";
 
         final int firstRightCount = userFirst.getRightCount();
@@ -14,6 +14,7 @@ public class MultiuserGame {
         if (firstRightCount > secondRightCount) {
             result(userFirst, winnerSpeech);
             result(userSecond, loserSpeech);
+            String scores = firstRightCount + " - " + secondRightCount;
         }
         else if (firstRightCount < secondRightCount) {
             result(userSecond, winnerSpeech);

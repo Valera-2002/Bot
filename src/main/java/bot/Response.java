@@ -24,11 +24,12 @@ public class Response {
       case "search":
         queue.add(user_id);
         if (queue.size() < 2) return "Ожидайте других игроков";
-        else
+        else{
           multigames.put(user_id, queue.get(0));
-          //multigames.put(queue.get(0), user_id);
+          multigames.put(queue.get(0), user_id);
           queue.clear();
           return "STARTGAMECODE";
+          }
 
       case "go":
         Game newGame = new Game();

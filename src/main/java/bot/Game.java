@@ -22,6 +22,7 @@ public class Game {
   public int rightCount = 0;
   public int getRightCount() {return rightCount;}
   public int wrongCount = 0;
+  public Long opponentsId;
   public long time = 0;
   public long getTime() {return time;}
   StopWatch timer = new StopWatch();
