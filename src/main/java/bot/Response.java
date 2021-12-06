@@ -1,45 +1,49 @@
 package bot;
 
+
 import java.util.*;
 
 public class Response {
-  public Map<Long, Game> map = new HashMap<>();
-  public Map<Long, AddQuestions> add = new HashMap<>();
-  List<String> admin_id = new ArrayList<>(Arrays.asList("721126016", "1224972468"));
+  public Map<Long, Game> gameMap = new HashMap<>();
+  public Map<Long, AddQuestions> questionsMap = new HashMap<>();
+  //public List<MultiusersGame> multiusersGames = new ArrayList<>();
+  private final List<String> admin_id = new ArrayList<>(Arrays.asList("721126016", "1224972468"));
+  public List<Long> queue = new ArrayList<>();
+  public Map<Long, Long> multigames = new HashMap<>();
+
 
   public String response(String text, long user_id) {
-    if (text.equals("/start")){
-      return sayHello();
-    }
-    if (text.equals("help")) {
-      return getHelp();
-    }
+    switch(text){
+      case "/start": return sayHello();
+      case "help": return getHelp();
+      case "add": if (admin_id.contains(Long.toString(user_id))){
+        AddQuestions addQuestions = new AddQuestions();
+        questionsMap.put(user_id, addQuestions);
+        return addQuestions.instruction();}
 
-    if (admin_id.contains(Long.toString(user_id)) && text.equals("add")){
-      AddQuestions addQuestions = new AddQuestions();
-      add.put(user_id, addQuestions);
-      return addQuestions.instruction();
-    }
+      case "search":
+        queue.add(user_id);
+        if (queue.size() < 2) return "Ожидайте других игроков";
+        else
+          multigames.put(user_id, queue.get(0));
+          //multigames.put(queue.get(0), user_id);
+          queue.clear();
+          return "STARTGAMECODE";
 
-    if (add.containsKey(user_id) && add.get(user_id).getAppend()){
-      if (add.get(user_id).getQuestion().equals("")) {
-        return add.get(user_id).inputQuestion(text);
-      }
-      if (add.get(user_id).getVariantQuestions().equals("")) {
-        return add.get(user_id).inputVariantQuestion(text);
-      }
-      if (add.get(user_id).getAnswerQuestions().equals("")) {
-        return add.get(user_id).inputAnswerQuestion(text);
-      }
-    }
+      case "go":
+        Game newGame = new Game();
+        gameMap.put(user_id, newGame);
+        return newGame.startGame();
 
-    if (text.equals("go")){
-      Game newGame = new Game();
-      map.put(user_id, newGame);
-      return newGame.startGame();
+      case "result": return gameMap.get(user_id).getResultOfBattle();
     }
+    if (questionsMap.containsKey(user_id) && questionsMap.get(user_id).getAppend()){
+      if (questionsMap.get(user_id).getQuestion().equals("")) return questionsMap.get(user_id).inputQuestion(text);
+      if (questionsMap.get(user_id).getVariantQuestions().equals("")) return questionsMap.get(user_id).inputVariantQuestion(text);
+      if (questionsMap.get(user_id).getAnswerQuestions().equals("")) return questionsMap.get(user_id).inputAnswerQuestion(text);
+    }
+    if (gameMap.containsKey(user_id) && gameMap.get(user_id).getOnGame()) return gameMap.get(user_id).goGame(text);
 
-    if (map.containsKey(user_id) && map.get(user_id).getOnGame()){return map.get(user_id).goGame(text);}
     else {
       return """
               Некорректный ввод
@@ -61,4 +65,5 @@ public class Response {
 Для начала игры напиши команду "go"
 Для повторного получения справочной информации напиши "help\"""";
   }
+
 }
