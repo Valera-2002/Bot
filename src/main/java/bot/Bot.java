@@ -11,15 +11,12 @@ import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMa
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
-import org.apache.commons.lang.time. StopWatch;
 
 public class Bot extends TelegramLongPollingBot {
 
   private static final String TOKEN = "2135433200:AAH3rSTa68Bv0ZlsZnFEoIgz09QFtavwmfo";
   private static final String BOTNAME = "das_quiz_bot";
   Response responder = new Response();
-  StopWatch timer = new StopWatch();
-  private static final int limit = 2;
 
   public Bot(DefaultBotOptions options) {
     super(options);
@@ -41,25 +38,13 @@ public class Bot extends TelegramLongPollingBot {
       String data = update.getCallbackQuery().getData();
       String res = responder.response(data, chat_id);
       sendMessage(chat_id, res);
-      timer(limit,chat_id);
     }
     else if (update.hasMessage()) {
       long chat_id = update.getMessage().getChatId();
       String text = update.getMessage().getText();
       String res = responder.response(text, chat_id);
-      if (res.equals("STARTGAMECODE")){
-        Long firstGamer = responder.multigames.get(chat_id);
-        sendMessage(firstGamer, responder.response("go", firstGamer));
-        sendMessage(chat_id, responder.response("go", chat_id));
-        responder.gameMap.get(firstGamer).opponentsId = chat_id;
-        responder.gameMap.get(chat_id).opponentsId = firstGamer;
-        Timer myTimer = new Timer();
-        MyTimerTask myTimerTask = new MyTimerTask(this, responder.gameMap, chat_id);
-        myTimer.schedule(myTimerTask, 90000);
-        return;
-      }
+      if (res.equals("STARTGAMECODE")) startMultiuserGame(chat_id);
       sendMessage(chat_id, res);
-      timer(limit,chat_id);
     }
   }
 
@@ -91,18 +76,17 @@ public class Bot extends TelegramLongPollingBot {
       e.printStackTrace();
     }
   }
-  public void timer(int limit, long chat_id) {
-    if (responder.gameMap.get(chat_id) != null){
-      if (responder.gameMap.get(chat_id).onGame) {
-        long i = 0;
-        timer.reset();
-        timer.start();
-        while (i < limit * 1000L) {
-          i = timer.getTime();
-        }
-    timer.stop();
-    sendMessage(chat_id,responder.response("0", chat_id));
-  }}}
+
+  public void startMultiuserGame(long chat_id){
+    Long firstGamer = responder.multigames.get(chat_id);
+    sendMessage(firstGamer, responder.response("go", firstGamer));
+    sendMessage(chat_id, responder.response("go", chat_id));
+    responder.gameMap.get(firstGamer).opponentsId = chat_id;
+    responder.gameMap.get(chat_id).opponentsId = firstGamer;
+    Timer myTimer = new Timer();
+    MyTimerTask myTimerTask = new MyTimerTask(this, responder.gameMap, chat_id);
+    myTimer.schedule(myTimerTask, 10000);
+  }
   public void resultOfBattle(Long userId){
     MultiuserGame multiuserGame = new MultiuserGame();
     Long opponentId = responder.gameMap.get(userId).opponentsId;

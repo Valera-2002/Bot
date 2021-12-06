@@ -30,13 +30,13 @@ public class MultiuserGameTest {
 
       resp.gameMap.get(id2).rightCount=8;
       stat.gameStat(resp.gameMap.get(id1),resp.gameMap.get(id2));
-      assertEquals("Вы победили!",resp.gameMap.get(id1).getResultOfBattle());
-      assertEquals("Вы проиграли!",resp.gameMap.get(id2).getResultOfBattle());
+      assertEquals("Вы победили! Счёт:10 - 8",resp.gameMap.get(id1).getResultOfBattle());
+      assertEquals("Вы проиграли! Счёт:10 - 8",resp.gameMap.get(id2).getResultOfBattle());
 
       resp.gameMap.get(id1).rightCount=5;
-      resp.gameMap.get(id1).time=5;
+      resp.gameMap.get(id1).time=2;
       resp.gameMap.get(id2).rightCount=5;
-      resp.gameMap.get(id2).time=2;
+      resp.gameMap.get(id2).time=5;
       stat.gameStat(resp.gameMap.get(id1),resp.gameMap.get(id2));
       assertEquals("Вы победили! По времени, при равном счете",resp.gameMap.get(id1).getResultOfBattle());
       assertEquals("Вы проиграли! По времени, при равном счете",resp.gameMap.get(id2).getResultOfBattle());

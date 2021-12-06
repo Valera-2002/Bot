@@ -10,8 +10,7 @@ class ResponseTest {
 
  @Test
   void responseAddQuestions() {
-     assertEquals("Некорректный ввод"
-            + "\nДля повторного получения справочной информации напиши \"help\" ", resp.response("add", 12312));
+     assertEquals("Нет доступа", resp.response("add", 123));
   }
   @Test
   void responseGame() {

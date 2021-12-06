@@ -6,7 +6,6 @@ import java.util.*;
 public class Response {
   public Map<Long, Game> gameMap = new HashMap<>();
   public Map<Long, AddQuestions> questionsMap = new HashMap<>();
-  //public List<MultiusersGame> multiusersGames = new ArrayList<>();
   private final List<String> admin_id = new ArrayList<>(Arrays.asList("721126016", "1224972468"));
   public List<Long> queue = new ArrayList<>();
   public Map<Long, Long> multigames = new HashMap<>();
@@ -20,16 +19,16 @@ public class Response {
         AddQuestions addQuestions = new AddQuestions();
         questionsMap.put(user_id, addQuestions);
         return addQuestions.instruction();}
+        else return "Нет доступа";
 
       case "search":
         queue.add(user_id);
         if (queue.size() < 2) return "Ожидайте других игроков";
-        else{
+        else
           multigames.put(user_id, queue.get(0));
           multigames.put(queue.get(0), user_id);
           queue.clear();
           return "STARTGAMECODE";
-          }
 
       case "go":
         Game newGame = new Game();
