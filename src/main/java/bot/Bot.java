@@ -14,12 +14,18 @@ import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 
 public class Bot extends TelegramLongPollingBot {
 
-  private static final String TOKEN = "2135433200:AAH3rSTa68Bv0ZlsZnFEoIgz09QFtavwmfo";
+  private static String TOKEN;
   private static final String BOTNAME = "das_quiz_bot";
   Response responder = new Response();
 
   public Bot(DefaultBotOptions options) {
     super(options);
+    TOKEN = getBotToken();
+  }
+
+  @Override
+  public String getBotToken() {
+    return System.getenv("TOKEN");
   }
 
   @Override
@@ -27,10 +33,6 @@ public class Bot extends TelegramLongPollingBot {
     return BOTNAME;
   }
 
-  @Override
-  public String getBotToken() {
-    return TOKEN;
-  }
 
   public void onUpdateReceived(Update update) {
     if (update.hasCallbackQuery()) {
