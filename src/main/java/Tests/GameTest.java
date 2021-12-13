@@ -6,19 +6,6 @@ import bot.Game;
 class GameTest {
 
   @org.junit.jupiter.api.Test
-  void startGame(){
-    Game newGame = new Game();
-    newGame.fillArray();
-    assertEquals("""
-            Игра началась!
-            Сколько лет прожил Жак Фреско?
-            1. 1
-            2. 101
-            3. 78
-            4. 53""",newGame.startGame());
-  }
-
-  @org.junit.jupiter.api.Test
   void isCorrect() {
     Game newGame = new Game();
 
