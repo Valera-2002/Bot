@@ -1,5 +1,6 @@
 package bot;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,12 +15,18 @@ import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 
 public class Bot extends TelegramLongPollingBot {
 
-  private static final String TOKEN = "2135433200:AAH3rSTa68Bv0ZlsZnFEoIgz09QFtavwmfo";
+  private static String TOKEN;
   private static final String BOTNAME = "das_quiz_bot";
   Response responder = new Response();
 
   public Bot(DefaultBotOptions options) {
     super(options);
+    TOKEN = getBotToken();
+  }
+
+  @Override
+  public String getBotToken() {
+    return System.getenv("TOKEN");
   }
 
   @Override
@@ -27,23 +34,34 @@ public class Bot extends TelegramLongPollingBot {
     return BOTNAME;
   }
 
-  @Override
-  public String getBotToken() {
-    return TOKEN;
-  }
-
   public void onUpdateReceived(Update update) {
     if (update.hasCallbackQuery()) {
       long chat_id = update.getCallbackQuery().getMessage().getChatId();
       String data = update.getCallbackQuery().getData();
-      String res = responder.response(data, chat_id);
+      String res = null;
+      try {
+        res = responder.response(data, chat_id);
+      } catch (IOException e) {
+        e.printStackTrace();
+      }
       sendMessage(chat_id, res);
     }
     else if (update.hasMessage()) {
       long chat_id = update.getMessage().getChatId();
       String text = update.getMessage().getText();
-      String res = responder.response(text, chat_id);
-      if (res.equals("STARTGAMECODE")) startMultiuserGame(chat_id);
+      String res = null;
+      try {
+        res = responder.response(text, chat_id);
+      } catch (IOException e) {
+        e.printStackTrace();
+      }
+      if (res.equals("STARTGAMECODE")) {
+        try {
+          startMultiuserGame(chat_id);
+        } catch (IOException e) {
+          e.printStackTrace();
+        }
+      }
       sendMessage(chat_id, res);
     }
   }
@@ -77,7 +95,7 @@ public class Bot extends TelegramLongPollingBot {
     }
   }
 
-  public void startMultiuserGame(long chat_id){
+  public void startMultiuserGame(long chat_id) throws IOException {
     Long firstGamer = responder.multigames.get(chat_id);
     sendMessage(firstGamer, responder.response("go", firstGamer));
     sendMessage(chat_id, responder.response("go", chat_id));
@@ -87,7 +105,7 @@ public class Bot extends TelegramLongPollingBot {
     MyTimerTask myTimerTask = new MyTimerTask(this, responder.gameMap, chat_id);
     myTimer.schedule(myTimerTask, 10000);
   }
-  public void resultOfBattle(Long userId){
+  public void resultOfBattle(Long userId) throws IOException {
     MultiuserGame multiuserGame = new MultiuserGame();
     Long opponentId = responder.gameMap.get(userId).opponentsId;
     multiuserGame.gameStat

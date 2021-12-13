@@ -1,6 +1,7 @@
 package bot;
 
 
+import java.io.IOException;
 import java.util.*;
 
 public class Response {
@@ -11,7 +12,7 @@ public class Response {
   public Map<Long, Long> multigames = new HashMap<>();
 
 
-  public String response(String text, long user_id) {
+  public String response(String text, long user_id) throws IOException {
     switch(text){
       case "/start": return sayHello();
       case "help": return getHelp();
@@ -33,7 +34,20 @@ public class Response {
       case "go":
         Game newGame = new Game();
         gameMap.put(user_id, newGame);
+        newGame.fillArray();
         return newGame.startGame();
+
+      case "game":
+        Game myGame = new Game();
+        gameMap.put(user_id, myGame);
+        try {
+          myGame.fillArrayFromAPI();
+        }
+        catch (Exception e){
+          System.out.println(e);
+        }
+        return myGame.startGame();
+
 
       case "result": return gameMap.get(user_id).getResultOfBattle();
     }

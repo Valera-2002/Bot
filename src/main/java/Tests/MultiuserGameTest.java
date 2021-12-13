@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import bot.MultiuserGame;
 import bot.Response;
+import java.io.IOException;
 import org.junit.jupiter.api.Test;
 
 public class MultiuserGameTest {
@@ -11,7 +12,7 @@ public class MultiuserGameTest {
   long id1 = 1;
   long id2 = 2;
   @Test
-  void searchTest(){
+  void searchTest() throws IOException {
       assertEquals("Ожидайте других игроков",resp.response("search",id1));
       assertEquals(1,resp.queue.size());
       assertEquals("STARTGAMECODE",resp.response("search",id2));
@@ -22,7 +23,7 @@ public class MultiuserGameTest {
 
   }
   @Test
-  void gameStatTest(){
+  void gameStatTest() throws IOException {
       MultiuserGame stat = new MultiuserGame();
       resp.response("go",id1);
       resp.response("go",id2);

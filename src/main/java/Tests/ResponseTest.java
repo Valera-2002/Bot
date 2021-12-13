@@ -3,17 +3,18 @@ package Tests;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import bot.Response;
+import java.io.IOException;
 import org.junit.jupiter.api.Test;
 
 class ResponseTest {
   Response resp = new Response();
 
  @Test
-  void responseAddQuestions() {
+  void responseAddQuestions() throws IOException {
      assertEquals("Нет доступа", resp.response("add", 123));
   }
   @Test
-  void responseGame() {
+  void responseGame() throws IOException {
     long id = 123;
     resp.response("go",id);
     resp.response("2",id);
