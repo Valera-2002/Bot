@@ -16,11 +16,11 @@ class ResponseTest {
   @Test
   void responseGame() throws IOException {
     long id = 123;
-    resp.response("go",id);
-    resp.response("2",id);
-    resp.response("2",id);
+    resp.response("game",id);
+    resp.response("1",id);
+    resp.response("1",id);
     assertEquals("""
-
+           
             Верных ответов:2
             Неверных ответов:0"""+
             "\nОбщее время: "+resp.gameMap.get(id).getTime()/1000+ " c", resp.gameMap.get(id).statistics());

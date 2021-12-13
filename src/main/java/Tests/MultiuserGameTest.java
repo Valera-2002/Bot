@@ -25,8 +25,8 @@ public class MultiuserGameTest {
   @Test
   void gameStatTest() throws IOException {
       MultiuserGame stat = new MultiuserGame();
-      resp.response("go",id1);
-      resp.response("go",id2);
+      resp.response("game",id1);
+      resp.response("game",id2);
       resp.gameMap.get(id1).rightCount=10;
 
       resp.gameMap.get(id2).rightCount=8;
@@ -47,8 +47,6 @@ public class MultiuserGameTest {
       stat.gameStat(resp.gameMap.get(id1),resp.gameMap.get(id2));
       assertEquals("Произошла ничья",resp.gameMap.get(id1).getResultOfBattle());
       assertEquals("Произошла ничья",resp.gameMap.get(id2).getResultOfBattle());
-
-      ;
 
     }
 }
