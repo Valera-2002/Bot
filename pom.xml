@@ -18,7 +18,7 @@
                     <archive>
                         <manifest>
                             <addClasspath>true</addClasspath>
-                            <mainClass>src.main.java.bot.Project</mainClass>
+                            <mainClass>java.bot.Project</mainClass>
                         </manifest>
                     </archive>
                 </configuration>
@@ -28,7 +28,7 @@
                 <configuration>
                     <archive>
                         <manifest>
-                            <mainClass>src.main.java.bot.Project</mainClass>
+                            <mainClass>java.bot.Project</mainClass>
                         </manifest>
                     </archive>
                     <descriptorRefs>
