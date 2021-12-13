@@ -15,7 +15,7 @@ import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 
 public class Bot extends TelegramLongPollingBot {
 
-  private static String TOKEN;
+  private static String TOKEN = "2135433200:AAH3rSTa68Bv0ZlsZnFEoIgz09QFtavwmfo";
   private static final String BOTNAME = "das_quiz_bot";
   Response responder = new Response();
 
@@ -26,7 +26,7 @@ public class Bot extends TelegramLongPollingBot {
 
   @Override
   public String getBotToken() {
-    return System.getenv("TOKEN");
+    return TOKEN;
   }
 
   @Override
@@ -98,8 +98,8 @@ public class Bot extends TelegramLongPollingBot {
 
   public void startMultiuserGame(long chat_id) throws IOException {
     Long firstGamer = responder.multigames.get(chat_id);
-    sendMessage(firstGamer, responder.response("go", firstGamer));
-    sendMessage(chat_id, responder.response("go", chat_id));
+    sendMessage(firstGamer, responder.response("game", firstGamer));
+    sendMessage(chat_id, responder.response("game", chat_id));
     responder.gameMap.get(firstGamer).opponentsId = chat_id;
     responder.gameMap.get(chat_id).opponentsId = firstGamer;
     Timer myTimer = new Timer();
