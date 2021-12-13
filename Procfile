@@ -1,1 +1,1 @@
-worker java $JAVA_OPTS -cp target/classes:target/dependency/bot/Project.class
+web: java -jar target/Project-1.0-SNAPSHOT-jar-with-dependencies.jar
