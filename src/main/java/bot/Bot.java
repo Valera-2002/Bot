@@ -12,6 +12,7 @@ import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMa
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
+import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
 
 public class Bot extends TelegramLongPollingBot {
 
@@ -22,6 +23,11 @@ public class Bot extends TelegramLongPollingBot {
   public Bot(DefaultBotOptions options) {
     super(options);
     TOKEN = getBotToken();
+  }
+
+  @Override
+  public void clearWebhook() throws TelegramApiRequestException {
+    super.clearWebhook();
   }
 
   @Override
