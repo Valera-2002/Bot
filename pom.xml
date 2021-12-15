@@ -3,7 +3,10 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
+<<<<<<< HEAD
 
+=======
+>>>>>>> 1a11d9be3dcf713359b964b0d9abc0f80977ee24
     <packaging>jar</packaging>
     <groupId>groupId</groupId>
     <artifactId>Bot</artifactId>
